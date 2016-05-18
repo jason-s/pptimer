@@ -1,0 +1,116 @@
+Public cPPTObject As cEventHandler
+
+Sub Auto_Open()
+    Dim oToolbar As CommandBar
+    Dim oButton As CommandBarButton
+    Dim oButton2 As CommandBarButton
+    Dim MyToolbar As String
+
+    ' Give the toolbar a name
+    MyToolbar = "pptimer"
+
+    On Error Resume Next
+    ' so that it doesn't stop on the next line if the toolbar's already there
+
+    ' Create the toolbar; PowerPoint will error if it already exists
+    Set oToolbar = CommandBars.Add(Name:=MyToolbar, _
+        Position:=msoBarFloating, Temporary:=True)
+    If Err.Number <> 0 Then
+          ' The toolbar's already there, so we have nothing to do
+          Exit Sub
+    End If
+
+    On Error GoTo ErrorHandler
+    
+    Set genericControl = oToolbar.Controls.Add
+    With genericControl 'The 'Label' is clickable like a button
+        .Caption = "PowerPoint Timer"
+        .Style = msoControlLabel
+    End With
+
+
+    ' Now add a button to the new toolbar
+    Set oButton = oToolbar.Controls.Add(Type:=msoControlButton)
+
+    ' And set some of the button's properties
+
+    With oButton
+
+         .DescriptionText = "Time presentation"
+          'Tooltip text when mouse if placed over button
+
+         .Caption = "Time presentation"
+         'Text if Text in Icon is chosen
+
+         .OnAction = "ButtonEnable"
+
+         .Style = msoButtonIcon
+          ' Button displays as icon, not text or both
+
+         .FaceId = 33
+
+    End With
+    
+    Set oButton2 = oToolbar.Controls.Add(Type:=msoControlButton)
+    With oButton2
+
+         .DescriptionText = "Stop timing presentation"
+          'Tooltip text when mouse if placed over button
+
+         .Caption = "Stop timing presentation"
+         'Text if Text in Icon is chosen
+
+         .OnAction = "ButtonDisable"
+
+         .Style = msoButtonIcon
+          ' Button displays as icon, not text or both
+
+         .FaceId = 228
+
+    End With
+
+    ' Repeat the above for as many more buttons as you need to add
+    ' Be sure to change the .OnAction property at least for each new button
+
+    ' You can set the toolbar position and visibility here if you like
+    ' By default, it'll be visible when created. Position will be ignored in PPT 2007 and later
+    oToolbar.Top = 150
+    oToolbar.Left = 150
+    oToolbar.Visible = True
+
+NormalExit:
+    Exit Sub   ' so it doesn't go on to run the errorhandler code
+
+ErrorHandler:
+     'Just in case there is an error
+     Set cPPTObject.PPTEvent = Nothing
+     MsgBox Err.Number & vbCrLf & Err.Description
+     Resume NormalExit:
+End Sub
+
+Sub ButtonEnable()
+' This code will run when you click Button 1 added above
+' Add a similar subroutine for each additional button you create on the toolbar
+    ' This is just some silly example code.
+    ' You'd put your real working code here to do whatever
+    ' it is that you want to do
+     'set a application reference to the event-enabled object
+    Set cPPTObject = New cEventHandler
+    Set cPPTObject.PPTEvent = Application
+    MsgBox "enable timer"
+End Sub
+
+Sub ButtonDisable()
+' This code will run when you click Button 1 added above
+' Add a similar subroutine for each additional button you create on the toolbar
+    ' This is just some silly example code.
+    ' You'd put your real working code here to do whatever
+    ' it is that you want to do
+     'set a application reference to the event-enabled object
+    Set cPPTObject.PPTEvent = Nothing
+    Set cPPTObject = Nothing
+    MsgBox "disable timer"
+End Sub
+
+
+

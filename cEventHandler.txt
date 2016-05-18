@@ -1,0 +1,51 @@
+Const fsoForAppend = 8
+ 
+ '#######################################################
+ '### EventClass code
+ '#######################################################
+ 'declares a variable that will handle application events
+Public WithEvents PPTEvent As Application
+Private lStart As Long
+ 
+Private Sub note(s As String)
+    strPath = Environ("AppData") & "\pptimer.txt"
+    Dim fso As Object
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Dim oFile As Object
+    Set oFile = fso.OpenTextFile(strPath, fsoForAppend, True)
+    oFile.WriteLine s
+    oFile.Close
+    Set fso = Nothing
+    Set oFile = Nothing
+End Sub
+ 
+Private Sub Class_Initialize()
+    note ("Timing slideshow")
+End Sub
+ 
+' see http://officeone.mvps.org/vba/events_version.html for description of VBA events
+ 
+Private Sub PPTEvent_SlideShowBegin(ByVal Wn As SlideShowWindow)
+    lStart = Date2Long(Now())
+    note ("Starting presentation " & Wn.Presentation.Name & " at " & Now())
+End Sub
+
+Private Sub PPTEvent_SlideShowEnd(ByVal Pres As Presentation)
+    Dim lNow As Long
+    lNow = Date2Long(Now())
+    note ("Ending presentation " & Pres.Name & " at " & Now() & "; elapsed time = " & (lNow - lStart))
+End Sub
+ 
+ 'the event that fires after a new presentation has opened
+ 'variable "pres" is set as that new presentation
+Private Sub PPTEvent_SlideShowNextSlide(ByVal Wn As SlideShowWindow)
+    Dim lNow As Long
+    lNow = Date2Long(Now())
+    note (Format(lNow - lStart, "000000") & " #" & Format(Wn.View.Slide.SlideIndex, "000") & " " & Wn.Presentation.Name)
+End Sub
+ '#######################################################
+ 
+Private Function Date2Long(dtmDate As Date) As Long
+   Date2Long = (dtmDate - #1/1/1970#) * 86400
+End Function
+
