@@ -1,6 +1,6 @@
 # pptimer #
 
-PowerPoint timer -- Jason Sachs <jmsachs@gmail.com> aka `jason-s`
+PowerPoint timer -- Jason Sachs <jmsachs at gmail dot com> aka `jason-s`
 
 This PowerPoint module adds a custom toolbar in the Add-Ins section with two buttons,
 one to enable timing slideshows and the other to disable timing slideshows.
