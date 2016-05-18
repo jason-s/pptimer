@@ -5,9 +5,9 @@ PowerPoint timer
 This PowerPoint module adds a custom toolbar in the Add-Ins section with two buttons,
 one to enable timing slideshows and the other to disable timing slideshows.
 
-![](pptimer-toolbar.png)
+![](doc/pptimer-toolbar.png)
 
-It will produce a file called pptimer.txt in your AppData/Roaming folder,
+It will produce a file called pptimer.txt in your `{APPDATA}/Roaming` folder,
 and will just append lines to this file that look like this:
 
 ```
