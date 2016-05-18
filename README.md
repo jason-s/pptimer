@@ -42,3 +42,5 @@ Very simple -- at each transition between slides it will add a line containing:
 ## Limitations ##
 
 Not sure. It works with Office 2007, you're on your own if it doesn't work.
+
+This is VBA!!! Yeccchhh! But it was vaguely easy to do this. I don't really know VBA so I'm surprised it wasn't more difficult. I probably made mistakes. Oh well.
